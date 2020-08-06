@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Google Meet Grid View
 // @namespace    https://fugi.tech/
-// @version      1.37
+// @version      1.39
 // @description  Adds a toggle to use a grid layout in Google Meets
 // @author       Chris Gamble
 // @include      https://meet.google.com/*
@@ -1012,11 +1012,14 @@
       }
     }
     // When this inevitably fails again run the following: Object.values(default_MeetingsUi).filter(v => v && typeof v === 'function' && /this\.([A-Za-z]+)=[A-Za-z]+\(this\)/.test(v.toString()))
+    // Medlir - Updated with expanded regex and full toString output, then searched for "render" to find the method:
+    // Object.values(default_MeetingsUi).filter(v => v && typeof v === 'function' && /\.([A-Za-z]+)\([a-zA-Z,.]+\{[^\x05]*?this\.([A-Za-z]+)=[A-Za-z0-9]+/.test(v.toString()) && console.log(v.toString()));
+    // https://github.com/Fugiman/google-meet-grid-view/issues/225#issuecomment-656872533
     function MeetingsUIProxyHandler() {
       return {
         set: function (obj, prop, value) {
           if (value && typeof value === 'function') {
-            const m = /\.([A-Za-z]+)\([a-zA-Z,.]+\{[^\x05]*?this\.([A-Za-z]+)=[A-Za-z]+\(this\)/.exec(value.toString())
+            const m = /\.([A-Za-z]+)\([a-zA-Z,.]+\{[^\x05]*?this\.([A-Za-z]+)=[A-Za-z0-9]+\(this\)/.exec(value.toString())
             if (m) {
               console.log('[google-meet-grid-view] Successfully hooked into rendering pipeline v3', value)
               value = new Proxy(value, RefreshVideoProxyHandlerV3(m[2], m[1]))
