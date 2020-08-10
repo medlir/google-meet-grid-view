@@ -866,14 +866,14 @@
             <hr>
             <div class="__gmgv-source-code">
               <small>v${version}</small>
-              <a href="https://github.com/Fugiman/google-meet-grid-view" target="_blank">${T('sourceCode')}</a>
+              <a href="https://github.com/medlir/google-meet-grid-view" target="_blank">${T('sourceCode')}</a>
             </div>
             ${
               authorized
                 ? ''
                 : `
             <hr>
-            <a href="https://github.com/Fugiman/google-meet-grid-view#official-releases" target="_blank">${T('unauthorizedWarning')}</a>
+            <a href="https://github.com/medlir/google-meet-grid-view#official-releases" target="_blank">${T('unauthorizedWarning')}</a>
             `
             }
           </div>
